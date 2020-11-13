@@ -3,6 +3,7 @@ package logo;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import logo.gui.MainWindow;
+import logo.interpreter.Lexer;
 
 public class Main extends Application
 {
@@ -15,6 +16,5 @@ public class Main extends Application
 	public void start(Stage primaryStage) throws Exception
 	{
 		new MainWindow().createWindow(primaryStage);
-		System.out.println(Math.PI);
 	}
 }
