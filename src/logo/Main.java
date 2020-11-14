@@ -8,7 +8,8 @@ import logo.interpreter.Lexer;
 public class Main extends Application
 {
 	public static void main(String[] args)
-	{
+	{	
+		//Lexer.tokenize("fd 25 rt sum 90 50");
 		launch(args);
 	}
 

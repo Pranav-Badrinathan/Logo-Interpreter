@@ -80,9 +80,11 @@ public final class Lexer
 			else if(LexRef.OTHER_KEYWORDS.contains(toTokenize)) tokens.add(new Token(TokenType.OTHER_KEYWORD, toTokenize));
 			else if(LexRef.OPERATION_KEYWORDS.contains(toTokenize)) tokens.add(new Token(TokenType.OPERATION_KEYWORD, toTokenize));
 			else if(LexRef.CONTROL_KEYWORDS.contains(toTokenize)) tokens.add(new Token(TokenType.CONTROL_KEYWORD, toTokenize));
-			else if(detectStringsAndIDs(toTokenize)) detectNumbers(toTokenize);
+			else if(!detectStringsAndIDs(toTokenize)) detectNumbers(toTokenize);
 			
 		}
+		
+		//tokens.stream().forEach(x -> System.out.println(x.type + " : " + x.value));
 	}
 	
 	private static boolean detectStringsAndIDs(String input) 
@@ -115,7 +117,7 @@ public final class Lexer
 			
 			if(LexRef.NUMBERS.contains(currentChar)) 
 				numberBuilder.append(currentChar);
-			else if(numberBuilder.length() != 0)
+			else if(numberBuilder.length() != 0) // so if a number's first digit is an operator like -, it wont freak
 			{
 				tokens.add(new Token(TokenType.NUMBER, numberBuilder.toString()));
 				numberBuilder.setLength(0);
@@ -127,5 +129,10 @@ public final class Lexer
 			if(currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/')
 				tokens.add(new Token(TokenType.OPERATION_KEYWORD, Character.toString(currentChar)));
 		}
+		
+		tokens.add(new Token(TokenType.NUMBER, numberBuilder.toString()));
+		numberBuilder.setLength(0);
+		numberBuilder = new StringBuilder();
+		periodFound = false;
 	}
 }
