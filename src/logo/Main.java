@@ -3,7 +3,6 @@ package logo;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import logo.gui.MainWindow;
-import logo.interpreter.Lexer;
 
 public class Main extends Application
 {

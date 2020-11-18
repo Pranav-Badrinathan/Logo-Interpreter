@@ -41,9 +41,10 @@ public final class Lexer
 		public static final ArrayList<String> OTHER_KEYWORDS = new ArrayList<String>(Arrays.asList(
 				"cleartext", "ct",
 				"print", "pr", "show",
-				"label",
+				"label", "setlabelfont", "fontfacenames",
 				"mouseon", "mouseoff",
-				"keyboardon", "keyboardoff"));
+				"keyboardon", "keyboardoff",
+				"fill", "slowdraw"));
 		
 		public static final ArrayList<String> OPERATION_KEYWORDS = new ArrayList<String>(Arrays.asList(
 				"sum", "+",

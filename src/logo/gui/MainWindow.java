@@ -27,7 +27,6 @@ public class MainWindow
 		root.setCenter(makeWorkArea());
 		root.setBottom(makeStatusBar());
 		
-		// primaryStage.setMaximized(true);
 		primaryStage.setScene(new Scene(root, 960, 540));
 		primaryStage.show();
 	}
@@ -61,11 +60,6 @@ public class MainWindow
 		CanvasPane drawArea = new CanvasPane(800,600);
 		TextArea codeArea = new TextArea();
 		SplitPane centre = new SplitPane();
-		
-//		Line line = new Line(400, 300, 500, 300);
-//		Group lineg = new Group(line);
-//		
-//		drawArea.getChildren().add(lineg);
 		
 		scrollpane.setContent(drawArea);
 		
