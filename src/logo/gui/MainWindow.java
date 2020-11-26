@@ -1,9 +1,8 @@
 package logo.gui;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -19,6 +18,7 @@ import logo.gui.custom_controls.CanvasPane;
 public class MainWindow
 {
 	private CanvasPane mainDrawArea;
+	private Button run;
 	
 	public void createWindow(Stage primaryStage)
 	{
@@ -76,12 +76,17 @@ public class MainWindow
 		ScrollPane scrollpane = new ScrollPane();
 		CanvasPane drawArea = new CanvasPane(800,600);
 		TextArea codeArea = new TextArea();
+		Button executeCode = new Button("EXECUTE");
+		SplitPane codeButton = new SplitPane();
 		SplitPane centre = new SplitPane();
 		
 		scrollpane.setContent(drawArea);
 		mainDrawArea = drawArea;
+		run = executeCode;
 		
-		centre.getItems().addAll(scrollpane, codeArea);
+		codeButton.getItems().addAll(codeArea, executeCode);
+		codeButton.setOrientation(Orientation.VERTICAL);
+		centre.getItems().addAll(scrollpane, codeButton);
 		centre.setOrientation(Orientation.HORIZONTAL);
 		return centre;
 	}
