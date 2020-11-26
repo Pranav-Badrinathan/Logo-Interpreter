@@ -4,12 +4,12 @@ import javafx.scene.paint.Color;
 
 public class Pen
 {
-	public float penSize;
+	public double penSize;
 	public Color penColor;
 	public Color fillColor;
 	public boolean isDrawing;
 	
-	public Pen(float size, Color penColor, Color fillColor)
+	public Pen(double size, Color penColor, Color fillColor)
 	{
 		this.penSize = size;
 		this.penColor = penColor;
@@ -24,7 +24,7 @@ public class Pen
 	
 	public void defaultPen() 
 	{
-		this.penSize = 1f;
+		this.penSize = 1;
 		this.penColor = Color.BLACK;
 		this.fillColor = Color.BLACK;
 		this.isDrawing = true;

@@ -1,11 +1,14 @@
 package logo.gui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
@@ -15,12 +18,16 @@ import logo.gui.custom_controls.CanvasPane;
 
 public class MainWindow
 {
-	int i = 1;
+	private CanvasPane mainDrawArea;
 	
 	public void createWindow(Stage primaryStage)
 	{
 		primaryStage.setTitle("Logo Interpreter");		
 		BorderPane root = new BorderPane();
+		
+		Slider slider = new Slider();
+		slider.setMax(359);
+		slider.setMin(0);
 		
 		//Set the top part of the screen to the menu bar
 		root.setTop(makeMenuBar());
@@ -29,6 +36,16 @@ public class MainWindow
 		
 		primaryStage.setScene(new Scene(root, 960, 540));
 		primaryStage.show();
+		
+		Renderer.initializeRenderer(mainDrawArea.canvas);
+		
+//		 slider.valueProperty().addListener(new ChangeListener<Number>() {
+//	            public void changed(ObservableValue<? extends Number> ov,
+//	                Number old_val, Number new_val) {
+//	                   mainDrawArea.turtle.rotation = new_val.doubleValue();
+//	                   mainDrawArea.turtle.reDraw();
+//	            }
+//	        });
 	}
 
 	private MenuBar makeMenuBar()
@@ -62,6 +79,7 @@ public class MainWindow
 		SplitPane centre = new SplitPane();
 		
 		scrollpane.setContent(drawArea);
+		mainDrawArea = drawArea;
 		
 		centre.getItems().addAll(scrollpane, codeArea);
 		centre.setOrientation(Orientation.HORIZONTAL);
