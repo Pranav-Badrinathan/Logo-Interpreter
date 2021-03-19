@@ -44,7 +44,8 @@ public final class Lexer
 				"label", "setlabelfont", "fontfacenames",
 				"mouseon", "mouseoff",
 				"keyboardon", "keyboardoff",
-				"fill", "slowdraw"));
+				"fill", "slowdraw",
+				"make"));
 		
 		public static final ArrayList<String> OPERATION_KEYWORDS = new ArrayList<String>(Arrays.asList(
 				"sum", "+",
@@ -71,6 +72,11 @@ public final class Lexer
 
 	public static void tokenize(String input)
 	{
+		input = input.replace('\n', ' ');
+		
+		//Checks whether the string is empty, and if it is, then we have nothing to do.
+		if(input.isBlank()) return;
+		
 		String[] toLex = input.split(" ");
 		for (int i = 0; i < toLex.length; i++)
 		{
@@ -82,10 +88,13 @@ public final class Lexer
 			else if(LexRef.OPERATION_KEYWORDS.contains(toTokenize)) tokens.add(new Token(TokenType.OPERATION_KEYWORD, toTokenize));
 			else if(LexRef.CONTROL_KEYWORDS.contains(toTokenize)) tokens.add(new Token(TokenType.CONTROL_KEYWORD, toTokenize));
 			else if(!detectStringsAndIDs(toTokenize)) detectNumbers(toTokenize);
+			else tokens.add(new Token(TokenType.SPECIAL, toTokenize));
 			
 		}
 		
-		//tokens.stream().forEach(x -> System.out.println(x.type + " : " + x.value));
+		tokens.stream().forEach(x -> System.out.println(x.type + " : " + x.value));
+		
+		Parser.Parse(tokens.toArray(new Token[tokens.size()]));
 	}
 	
 	private static boolean detectStringsAndIDs(String input) 
@@ -114,26 +123,33 @@ public final class Lexer
 		for (char currentChar : toDetect)
 		{
 			if(periodFound && currentChar == '.')
-				break; //Error!
+				return; //ERROR!
 			
 			if(LexRef.NUMBERS.contains(currentChar)) 
 				numberBuilder.append(currentChar);
-			else if(numberBuilder.length() != 0) // so if a number's first digit is an operator like -, it wont freak
+			else if(numberBuilder.length() != 0		// so if a number's first digit is an operator like -, it wont freak
+					&& currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/')
 			{
 				tokens.add(new Token(TokenType.NUMBER, numberBuilder.toString()));
 				numberBuilder.setLength(0);
 				numberBuilder = new StringBuilder();
 				periodFound = false;
 			}
+			else return; //ERROR!
 			
 			//Register operators that might be between numbers without spaces.
 			if(currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/')
 				tokens.add(new Token(TokenType.OPERATION_KEYWORD, Character.toString(currentChar)));
 		}
 		
+		try { Double.parseDouble(numberBuilder.toString()); }
+		catch(Exception e){ /*ERROR!*/ return; }
+		
 		tokens.add(new Token(TokenType.NUMBER, numberBuilder.toString()));
 		numberBuilder.setLength(0);
 		numberBuilder = new StringBuilder();
 		periodFound = false;
+		
+		System.out.println("HA!");
 	}
 }

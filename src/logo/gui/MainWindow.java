@@ -1,5 +1,7 @@
 package logo.gui;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,10 +16,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import logo.gui.custom_controls.CanvasPane;
+import logo.interpreter.Lexer;
 
 public class MainWindow
 {
 	private CanvasPane mainDrawArea;
+	private TextArea mainCodeArea;
 	private Button run;
 	
 	public void createWindow(Stage primaryStage)
@@ -38,6 +42,15 @@ public class MainWindow
 		primaryStage.show();
 		
 		Renderer.initializeRenderer(mainDrawArea.canvas);
+		
+		run.setOnAction(new EventHandler<ActionEvent>()
+		{
+			@Override
+			public void handle(ActionEvent arg0)
+			{
+				Lexer.tokenize(mainCodeArea.textProperty().getValue());
+			}
+		});
 		
 //		 slider.valueProperty().addListener(new ChangeListener<Number>() {
 //	            public void changed(ObservableValue<? extends Number> ov,
@@ -81,8 +94,10 @@ public class MainWindow
 		SplitPane centre = new SplitPane();
 		
 		scrollpane.setContent(drawArea);
+		
 		mainDrawArea = drawArea;
 		run = executeCode;
+		mainCodeArea = codeArea;
 		
 		codeButton.getItems().addAll(codeArea, executeCode);
 		codeButton.setOrientation(Orientation.VERTICAL);

@@ -31,7 +31,7 @@ public class Turtle extends Polygon
 	
 	public Turtle(CanvasPane pane)
 	{
-		this(new Vector2(), 45, new Pen(), pane);
+		this(new Vector2(), 0, new Pen(), pane);
 	}
 	
 	public void reDraw() 
